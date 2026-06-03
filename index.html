@@ -1,0 +1,1985 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>VOID — Trade Manual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#07070B;
+  --surface:#121420;
+  --surface-2:#181B2A;
+  --border:#1E1E2A;
+  --border-hover:#2A2A3E;
+  --purple:#8B5CF6;
+  --purple-dim:#6D28D9;
+  --purple-light:#C084FC;
+  --blue:#3B82F6;
+  --text:#E8E8F0;
+  --text-2:#8888A0;
+  --text-3:#555570;
+  --danger:#EF4444;
+  --success:#22C55E;
+  --gold:#F59E0B;
+  --radius:12px;
+  --radius-sm:8px;
+  --transition:0.25s cubic-bezier(0.16,1,0.3,1);
+}
+
+html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.7;
+  font-size:14px;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+::selection{background:rgba(139,92,246,0.3);color:#fff}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--purple-dim);border-radius:2px}
+
+/* BACKGROUND CONTOUR TEXT */
+.bg-text{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:0;overflow:hidden;
+}
+.bg-text span{
+  position:absolute;
+  font-family:'Sora',sans-serif;
+  font-weight:900;
+  font-size:clamp(120px,28vw,360px);
+  line-height:1;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(139,92,246,0.04);
+  text-stroke:1px rgba(139,92,246,0.04);
+  letter-spacing:-0.04em;
+  user-select:none;
+  white-space:nowrap;
+}
+.bg-text .t1{top:5%;right:-5%;opacity:0.5}
+.bg-text .t2{top:35%;left:-8%;opacity:0.3}
+.bg-text .t3{top:62%;right:-3%;opacity:0.4}
+.bg-text .t4{top:82%;left:-5%;opacity:0.25}
+
+/* GRID OVERLAY */
+.grid-overlay{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(139,92,246,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,0.02) 1px,transparent 1px);
+  background-size:48px 48px;
+}
+
+/* GLOW ORBS */
+.glow-orb{
+  position:fixed;border-radius:50%;pointer-events:none;z-index:0;
+  filter:blur(120px);
+}
+.glow-orb.primary{
+  width:600px;height:600px;
+  background:radial-gradient(circle,rgba(139,92,246,0.08),transparent 70%);
+  top:-20%;right:-10%;
+}
+.glow-orb.secondary{
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(59,130,246,0.06),transparent 70%);
+  bottom:10%;left:-10%;
+}
+
+/* HUD CIRCLE */
+.hud-circle{
+  position:fixed;pointer-events:none;z-index:0;
+  border:1px solid rgba(139,92,246,0.06);
+  border-radius:50%;
+}
+.hud-circle.c1{width:480px;height:480px;top:-120px;right:-80px}
+.hud-circle.c2{width:320px;height:320px;bottom:60px;left:-60px}
+
+/* HEADER */
+.header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(7,7,11,0.92);
+  backdrop-filter:blur(24px) saturate(1.4);
+  -webkit-backdrop-filter:blur(24px) saturate(1.4);
+  border-bottom:1px solid var(--border);
+  padding:0 24px;
+  height:52px;
+  display:flex;align-items:center;gap:16px;
+}
+.header::after{
+  content:'';position:absolute;bottom:-1px;left:0;right:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--purple),transparent);
+  opacity:0.12;
+}
+.header-logo{
+  font-family:'Sora',sans-serif;
+  font-weight:800;font-size:16px;
+  letter-spacing:-0.5px;
+  text-decoration:none;
+  background:linear-gradient(135deg,var(--purple-light),var(--purple));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  flex-shrink:0;
+}
+.header-nav{
+  display:flex;gap:2px;overflow-x:auto;flex:1;
+  scrollbar-width:none;-ms-overflow-style:none;
+  padding:2px 0;-webkit-overflow-scrolling:touch;
+}
+.header-nav::-webkit-scrollbar{display:none}
+.header-nav a{
+  color:var(--text-3);text-decoration:none;font-size:12px;
+  font-weight:500;padding:6px 12px;border-radius:6px;
+  white-space:nowrap;transition:all var(--transition);
+  letter-spacing:0.2px;touch-action:manipulation;
+}
+.header-nav a:active{background:rgba(139,92,246,0.08)}
+.header-nav a:hover{color:var(--text-2);background:rgba(139,92,246,0.06)}
+.header-nav a.active{
+  color:var(--purple-light);
+  background:rgba(139,92,246,0.1);
+}
+
+
+
+/* HERO */
+.hero{
+  position:relative;z-index:1;
+  padding:72px 24px 48px;
+  text-align:center;
+  overflow:hidden;
+}
+.hero-inner{max-width:600px;margin:0 auto;position:relative}
+.hero h1{
+  font-family:'Sora',sans-serif;
+  font-size:clamp(30px,5vw,52px);
+  font-weight:900;
+  letter-spacing:-1.5px;
+  line-height:1.1;
+  margin-bottom:14px;
+  background:linear-gradient(135deg,#fff 30%,var(--purple-light) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero p{
+  color:var(--text-2);
+  font-size:14.5px;
+  max-width:460px;
+  margin:0 auto;
+  line-height:1.7;
+}
+.hero-stats{
+  display:flex;gap:28px;justify-content:center;margin-top:28px;flex-wrap:wrap;
+}
+.hero-stat{text-align:center}
+.hero-stat-value{
+  font-family:'Sora',sans-serif;
+  font-size:20px;font-weight:800;
+  color:var(--text);letter-spacing:-0.5px;
+}
+.hero-stat-label{
+  font-size:11px;color:var(--text-3);
+  text-transform:uppercase;letter-spacing:0.5px;margin-top:2px;
+}
+.hero-divider{width:1px;height:32px;background:var(--border);align-self:center}
+
+/* CONTAINER */
+.container{max-width:760px;margin:0 auto;padding:0 20px 60px;position:relative;z-index:1}
+
+/* SECTIONS */
+.section{margin-bottom:10px}
+.section-header{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 18px;
+  background:var(--surface);
+  border-radius:var(--radius);
+  cursor:pointer;user-select:none;
+  transition:all var(--transition);
+  touch-action:manipulation;
+  border:1px solid transparent;
+}
+.section-header:active{background:var(--surface-2)}
+.section-header:hover{background:var(--surface-2)}
+.section-header .icon-wrap{
+  width:34px;height:34px;border-radius:var(--radius-sm);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.section-header h2{
+  font-family:'Sora',sans-serif;
+  font-size:14px;font-weight:700;
+  color:var(--text);
+  flex:1;letter-spacing:-0.3px;
+}
+.section-header .count{
+  font-size:11px;color:var(--text-3);
+  background:rgba(136,136,160,0.08);
+  padding:2px 10px;border-radius:10px;font-weight:600;
+  font-variant-numeric:tabular-nums;
+}
+.section-header .arrow{
+  width:16px;height:16px;color:var(--text-3);
+  transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  flex-shrink:0;
+}
+.section-header.open .arrow{transform:rotate(180deg)}
+.section-body{
+  display:none;
+  padding:14px 0 6px;
+  animation:sectionFadeIn 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+.section-body.open{display:block}
+@keyframes sectionFadeIn{
+  from{opacity:0;transform:translateY(-8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* CARDS */
+.card{
+  background:var(--surface);
+  border-radius:var(--radius);
+  padding:16px 18px;
+  margin-bottom:10px;
+  transition:all var(--transition);
+  border:1px solid transparent;
+}
+.card:hover{border-color:rgba(139,92,246,0.08)}
+.card:active{background:var(--surface-2)}
+.card-title{
+  font-family:'Sora',sans-serif;
+  font-size:13.5px;font-weight:700;
+  color:var(--text);
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:10px;
+  letter-spacing:-0.2px;
+}
+.card-title svg{width:16px;height:16px;flex-shrink:0;color:var(--purple)}
+.card p{
+  font-size:13.5px;color:var(--text-2);
+  line-height:1.75;margin-bottom:8px;
+}
+.card p:last-child{margin-bottom:0}
+.card ul{
+  list-style:none;padding:0;margin:4px 0;
+}
+.card ul li{
+  padding:4px 0 4px 18px;
+  position:relative;
+  font-size:13.5px;color:var(--text-2);
+  line-height:1.7;
+}
+.card ul li::before{
+  content:'';position:absolute;left:0;top:11.5px;
+  width:4px;height:4px;border-radius:50%;
+  background:var(--purple);opacity:0.5;
+}
+.card strong{color:var(--text);font-weight:600}
+.card-sub{
+  margin-top:12px;padding-top:12px;
+  border-top:1px solid var(--border);
+}
+.card-sub:first-child{margin-top:0;padding-top:0;border-top:none}
+
+/* TIP */
+.tip{
+  border-left:2px solid var(--blue);
+  background:rgba(59,130,246,0.04);
+  padding:10px 16px;
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+  margin:10px 0;
+  font-size:13px;color:var(--text-2);
+  line-height:1.7;
+}
+.tip strong{color:var(--text)}
+
+/* QUOTE */
+.quote{
+  position:relative;
+  background:rgba(139,92,246,0.04);
+  border-left:2px solid var(--purple);
+  padding:10px 16px;
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+  margin:10px 0;
+  font-size:13px;color:var(--text);
+  line-height:1.7;
+  font-style:italic;
+}
+
+/* TAGS */
+.tag{
+  display:inline-block;font-size:10px;font-weight:700;
+  padding:2px 8px;border-radius:4px;
+  text-transform:uppercase;letter-spacing:0.3px;
+  margin-right:4px;vertical-align:middle;
+  font-family:'Sora',sans-serif;
+}
+.tag-purple{background:rgba(139,92,246,0.15);color:var(--purple-light)}
+.tag-danger{background:rgba(239,68,68,0.12);color:var(--danger)}
+.tag-success{background:rgba(34,197,94,0.12);color:var(--success)}
+.tag-gold{background:rgba(245,158,11,0.12);color:var(--gold)}
+
+/* BADGE */
+.badge{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:11px;font-weight:600;
+  padding:2px 8px;border-radius:4px;
+  font-family:'Sora',sans-serif;
+}
+.badge-purple{background:rgba(139,92,246,0.1);color:var(--purple-light)}
+
+/* TABLE */
+.table-wrap{
+  overflow-x:auto;margin:10px 0;border-radius:var(--radius-sm);border:1px solid var(--border);
+}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{
+  background:var(--surface-2);color:var(--text-3);
+  font-weight:600;padding:9px 12px;
+  text-align:left;font-size:11px;
+  text-transform:uppercase;letter-spacing:0.3px;
+  font-family:'Sora',sans-serif;
+}
+td{padding:9px 12px;border-top:1px solid var(--border);color:var(--text-2)}
+
+/* DIALOG */
+.dialog{margin:8px 0}
+.dialog-item{
+  display:flex;gap:10px;margin-bottom:6px;
+  font-size:13px;line-height:1.65;
+}
+.dialog-who{
+  font-weight:700;flex-shrink:0;min-width:44px;
+  font-size:11px;text-transform:uppercase;letter-spacing:0.3px;
+  padding-top:1px;font-family:'Sora',sans-serif;
+}
+.dialog-who.m{color:var(--danger)}
+.dialog-who.v{color:var(--purple-light)}
+.dialog-text{color:var(--text-2)}
+
+/* STEPS */
+.steps{counter-reset:step}
+.step{
+  counter-increment:step;
+  padding:10px 0 10px 36px;
+  position:relative;
+  border-left:1px solid var(--border);
+  margin-left:10px;
+}
+.step:last-child{border-left-color:transparent}
+.step::before{
+  content:counter(step);
+  position:absolute;left:-12px;top:9px;
+  width:22px;height:22px;border-radius:50%;
+  background:rgba(139,92,246,0.12);
+  color:var(--purple-light);
+  font-size:11px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Sora',sans-serif;
+}
+.step-title{
+  font-family:'Sora',sans-serif;
+  font-weight:700;font-size:13px;
+  color:var(--text);margin-bottom:3px;letter-spacing:-0.2px;
+}
+.step p{font-size:13px;color:var(--text-2);line-height:1.65}
+
+/* RULE LIST */
+.rule-list{counter-reset:rule}
+.rule-item{
+  counter-increment:rule;
+  padding:12px 0 12px 36px;
+  position:relative;
+  border-bottom:1px solid var(--border);
+}
+.rule-item:last-child{border-bottom:none}
+.rule-item::before{
+  content:counter(rule);
+  position:absolute;left:0;top:11px;
+  width:24px;height:24px;border-radius:var(--radius-sm);
+  background:rgba(139,92,246,0.08);
+  color:var(--purple-light);
+  font-size:12px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Sora',sans-serif;
+}
+.rule-title{
+  font-family:'Sora',sans-serif;
+  font-weight:700;font-size:13px;
+  color:var(--text);margin-bottom:2px;letter-spacing:-0.2px;
+}
+.rule-item p{font-size:13px;color:var(--text-2);line-height:1.6}
+
+/* SUB TITLE */
+.sub-title{
+  font-family:'Sora',sans-serif;
+  font-size:11.5px;font-weight:700;
+  color:var(--purple-light);
+  margin:12px 0 6px;
+  text-transform:uppercase;letter-spacing:0.4px;
+}
+
+/* TOGGLE */
+.toggle-wrap{margin:6px 0}
+.toggle-header{
+  display:flex;align-items:center;gap:8px;
+  padding:9px 12px;
+  background:var(--surface-2);
+  border-radius:var(--radius-sm);
+  cursor:pointer;
+  font-size:13px;font-weight:600;
+  color:var(--text);
+  transition:all var(--transition);
+  user-select:none;
+  touch-action:manipulation;
+  border:1px solid transparent;
+}
+.toggle-header:active{background:rgba(139,92,246,0.06)}
+.toggle-header svg{width:13px;height:13px;flex-shrink:0}
+.toggle-header .arrow-t{
+  margin-left:auto;color:var(--text-3);
+  transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  width:13px;height:13px;
+}
+.toggle-header.open .arrow-t{transform:rotate(180deg)}
+.toggle-body{
+  display:none;
+  padding:10px 12px 6px;
+  animation:sectionFadeIn 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+.toggle-body.open{display:block}
+.toggle-body p,.toggle-body li{font-size:13px;color:var(--text-2);line-height:1.65}
+
+/* THEME LINE */
+.theme-line{
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(139,92,246,0.08),transparent);
+  margin:20px 0;
+}
+
+/* FOOTER */
+.footer{
+  position:relative;z-index:1;
+  text-align:center;padding:36px 20px;
+  color:var(--text-3);
+  font-size:11px;
+  border-top:1px solid var(--border);
+  letter-spacing:0.3px;
+}
+.footer p{margin-bottom:4px}
+.footer-brand{
+  font-family:'Sora',sans-serif;
+  font-weight:800;font-size:13px;
+  background:linear-gradient(135deg,var(--purple-light),var(--purple));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  letter-spacing:-0.3px;margin-bottom:8px;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .header{padding:0 14px;gap:10px;height:48px}
+  .header-nav a{padding:5px 9px;font-size:11px}
+  .hero{padding:52px 16px 36px}
+  .hero h1{font-size:26px}
+  .hero p{font-size:14px}
+  .hero-stats{gap:16px}
+  .hero-divider{display:block}
+  .container{padding:0 12px 48px}
+  .section-header{padding:12px 14px}
+  .section-header h2{font-size:13px}
+  .section-header .icon-wrap{width:30px;height:30px}
+  .section-header .icon-wrap svg{width:17px;height:17px}
+  .card{padding:14px}
+  .card-title{font-size:13px}
+  .bg-text span{display:none}
+  .grid-overlay{background-size:32px 32px}
+  .glow-orb.primary{width:300px;height:300px}
+  .glow-orb.secondary{width:200px;height:200px}
+}
+@media(max-width:480px){
+  .hero h1{font-size:22px}
+  .header-logo{font-size:14px}
+  .header-nav a{padding:4px 7px;font-size:10px}
+  .card{padding:12px}
+  .quote,.tip{padding:8px 12px;font-size:12.5px}
+  .search-modal{max-width:90%;top:10%}
+  .search-hint{display:none}
+}
+
+/* SEARCH OVERLAY */
+.search-overlay{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  z-index:200;
+  background:rgba(7,7,11,0.85);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  display:none;
+  opacity:0;
+  transition:opacity 0.2s;
+}
+.search-overlay.open{display:block;opacity:1}
+.search-modal{
+  position:relative;top:12%;max-width:560px;margin:0 auto;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:0 24px 80px rgba(0,0,0,0.6);
+  overflow:hidden;
+}
+.search-input-wrap{
+  display:flex;align-items:center;gap:10px;
+  padding:14px 16px;
+  border-bottom:1px solid var(--border);
+}
+.search-input-wrap svg{width:18px;height:18px;color:var(--text-3);flex-shrink:0}
+.search-input-wrap input{
+  flex:1;background:none;border:none;outline:none;
+  font-family:'Inter',sans-serif;
+  font-size:14px;color:var(--text);
+  caret-color:var(--purple);
+}
+.search-input-wrap input::placeholder{color:var(--text-3)}
+.search-input-wrap kbd{
+  font-size:10px;padding:2px 6px;
+  background:var(--surface-2);color:var(--text-3);
+  border-radius:4px;font-family:inherit;
+}
+.search-results{
+  max-height:360px;overflow-y:auto;
+  padding:4px 0;
+}
+.search-results::-webkit-scrollbar{width:3px}
+.search-results::-webkit-scrollbar-thumb{background:var(--purple-dim);border-radius:2px}
+.search-result-item{
+  display:flex;flex-direction:column;
+  padding:10px 16px;cursor:pointer;
+  transition:background 0.15s;
+  border-left:2px solid transparent;
+}
+.search-result-item:hover,.search-result-item.active{
+  background:rgba(139,92,246,0.06);
+  border-left-color:var(--purple);
+}
+.search-result-title{
+  font-size:13px;font-weight:600;color:var(--text);
+  margin-bottom:2px;
+}
+.search-result-context{
+  font-size:11px;color:var(--text-3);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.search-result-context mark{background:rgba(139,92,246,0.2);color:var(--purple-light)}
+.search-empty{
+  padding:24px 16px;text-align:center;color:var(--text-3);font-size:13px;
+}
+.search-hint{
+  display:flex;justify-content:center;gap:16px;
+  padding:8px 16px;border-top:1px solid var(--border);
+  font-size:10px;color:var(--text-3);
+}
+.search-hint kbd{
+  font-size:9px;padding:1px 5px;
+  background:var(--surface-2);color:var(--text-3);
+  border-radius:3px;font-family:inherit;
+}
+
+/* SEARCH BUTTON IN HEADER */
+.search-btn{
+  background:none;border:none;cursor:pointer;
+  width:30px;height:30px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text-3);transition:all var(--transition);
+  flex-shrink:0;touch-action:manipulation;
+}
+.search-btn:hover,.search-btn:active{color:var(--text-2);background:rgba(139,92,246,0.06)}
+.search-btn kbd{
+  display:none;font-size:9px;padding:1px 4px;
+  background:var(--surface-2);border-radius:3px;color:var(--text-3);
+}
+@media(min-width:768px){
+  .search-btn{width:auto;gap:6px;padding:0 8px}
+  .search-btn kbd{display:inline}
+}
+
+/* PROGRESS DOTS */
+.progress-dots{
+  display:flex;gap:4px;align-items:center;
+  margin-left:auto;
+}
+.progress-dot{
+  width:5px;height:5px;border-radius:50%;
+  background:var(--text-3);opacity:0.2;
+  transition:all 0.3s;
+}
+.progress-dot.done{background:var(--purple);opacity:0.6}
+</style>
+</head>
+<body>
+
+<div class="bg-text">
+  <span class="t1">VOID</span>
+  <span class="t2">TRADE</span>
+  <span class="t3">MANUALS</span>
+  <span class="t4">PROFILE</span>
+</div>
+<div class="grid-overlay"></div>
+<div class="glow-orb primary"></div>
+<div class="glow-orb secondary"></div>
+<div class="hud-circle c1"></div>
+<div class="hud-circle c2"></div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-logo">VOID</div>
+  <nav class="header-nav" id="headerNav">
+    <a href="#part1">База</a>
+    <a href="#part2">Трафик</a>
+    <a href="#part3">Прогрев</a>
+    <a href="#part4">Завод</a>
+    <a href="#part5">Бот</a>
+    <a href="#part6">Иксы</a>
+    <a href="#part7">Вывод</a>
+    <a href="#part8">Схемы</a>
+    <a href="#part9">Правила</a>
+    <button class="search-btn" onclick="openSearch()" aria-label="Поиск">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg>
+      <kbd>⌘K</kbd>
+    </button>
+  </nav>
+</header>
+
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="searchOverlay" onclick="closeSearch(event)">
+  <div class="search-modal" onclick="event.stopPropagation()">
+    <div class="search-input-wrap">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg>
+      <input type="text" id="searchInput" placeholder="Поиск по мануалу..." autocomplete="off" spellcheck="false">
+      <kbd>ESC</kbd>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+    <div class="search-hint">
+      <span><kbd>↑</kbd> <kbd>↓</kbd> навигация</span>
+      <span><kbd>↵</kbd> открыть раздел</span>
+      <span><kbd>ESC</kbd> закрыть</span>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <h1>VOID TRADE<br>MANUAL</h1>
+    <p>Полный сборник схем, этапов, механик и советов. От подготовки до закрытия сделки.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-value">9</div>
+        <div class="hero-stat-label">Разделов</div>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">50+</div>
+        <div class="hero-stat-label">Техник</div>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">100–500к</div>
+        <div class="hero-stat-label">Профит с лида</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<div class="container">
+
+<!-- ===== PART 1: БАЗА ===== -->
+<div class="section" id="part1">
+  <div class="section-header open" onclick="toggleSection(this)">
+    <div class="icon-wrap" style="background:rgba(139,92,246,0.1)">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 1l8 8-8 8-8-8 8-8z"/>
+        <circle cx="9" cy="9" r="2.5"/>
+      </svg>
+    </div>
+    <h2>База — с чего начать</h2>
+    <span class="count">5</span>
+    <div class="progress-dots"><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div></div>
+    <svg class="arrow open" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+  <div class="section-body open">
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M8 1v14M1 8h14"/><circle cx="8" cy="8" r="2.5"/></svg>
+        Подготовка к работе — чеклист
+      </div>
+      <div class="card-sub">
+        <div class="sub-title">Аккаунт</div>
+        <p>Покупай только у проверенных в команде. Аккаунт должен быть чистым, без подозрительной активности, с историей. <strong>Фишка от Фомы:</strong> не бери аккаунты «пачками» у ноунеймов — каждый аккаунт проверяй вручную: зайди, посмотри historю, убедись, что не забанен.</p>
+      </div>
+      <div class="card-sub">
+        <div class="sub-title">Модель и фото</div>
+        <p>Девушка 19-20 лет (максимальный поток, мамонты неопытные) или 22-27 лет. Внешность естественная, без понтов. <strong>Где брать фото:</strong></p>
+        <ul>
+          <li>ВКонтакте — женские паблики, обычные девушки, 3-5 фото</li>
+          <li>TikTok — найди девушек, у которых в описании Telegram-канал. Зайди в канал, скачай фото и кружочки. Это золотая жила: там и фото, и видео, и голосовые.</li>
+        </ul>
+      </div>
+      <div class="card-sub">
+        <div class="sub-title">Материалы (подготовь заранее)</div>
+        <ul>
+          <li>Кружочки и голосовые сообщения — записывай на одном дыхании, естественно</li>
+          <li>Реферальная ссылка — в боте воркера</li>
+          <li>Скрины трейдов от 300-400$ — чем выше, тем лучше</li>
+          <li>Фото модели — обычные, без фильтров, «как в жизни»</li>
+        </ul>
+        <div class="tip"><strong>Лайфхак:</strong> сохрани все материалы в один чат с самим собой в Telegram. Пересылаешь за секунду, не копаясь в папках. Когда мамонт просит «скинь ещё фото» — у тебя всё под рукой.</div>
+      </div>
+      <div class="card-sub">
+        <div class="sub-title">Безопасность — обязательно</div>
+        <ul>
+          <li>Прокси — отдельный под каждый аккаунт</li>
+          <li>VPN — всегда включён</li>
+          <li>Антидетект-браузер — Indigo, Octo Browser или аналог</li>
+        </ul>
+        <p><strong>Золотое правило:</strong> если прокси или антидетект глючит — не работай. Одна утечка может стоить всех аккаунтов.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M8 2v12M2 8h12"/><circle cx="8" cy="8" r="3.5"/></svg>
+        Легенда и образ — ключ к доверию
+      </div>
+      <p>Главная задача — объединить два образа: «своя девчонка» и «успешная бизнес-вумен». Мамонт должен тебе доверять и одновременно видеть, что ты шаришь в деньгах. Вот проверенные легенды из разных мануалов — комбинируй их под ситуацию.</p>
+
+      <div class="sub-title">Легенда №1: Мастер в салоне красоты (основная)</div>
+      <p><strong>Профессия:</strong> парикмахер-колорист или мастер ногтевого сервиса. Это идеальная база: работа «руками» вызывает доверие, не выглядит подозрительно, объясняет гибкий график. <strong>Фразы для анкеты:</strong> «Работаю в салоне, график плавающий, люблю свою работу, но мечтаю о большем».</p>
+      <div class="tip"><strong>Почему это работает:</strong> маникюрный/парикмахерский салон — знакомая среда для любого мужчины. Они понимают эту работу, не задают лишних вопросов. Плюс — это объясняет, почему у тебя всегда есть фото и кружочки «на рабочем месте».</div>
+
+      <div class="sub-title">Легенда №2: Бизнес-вумен (для денежных тем)</div>
+      <p><strong>Бэкграунд:</strong> есть диплом экономиста или аналитика. В салон пошла за «живыми деньгами», но настоящий заработок — через трейдинг и NFT. <strong>Связи:</strong> одногруппник работает в аналитическом центре (для инсайдов по трейдингу) или своя команда аналитиков (для NFT-дропов).</p>
+      <div class="tip"><strong>Фишка из мануала Фомы:</strong> комбинируй две легенды в одной фразе. «Я и в салоне работаю, и трейдингом занимаюсь. В салоне — для души и стабильности, трейдинг — для настоящих денег». Это создаёт объёмный образ.</div>
+
+      <div class="sub-title">Легенда №3: Переезд и офис (для LTV и доверия)</div>
+      <p>При регистрации в ЛДВ указываешь, что переезжаешь в другой город. Когда мамонт спрашивает о переезде — запускаешь легенду про офис:</p>
+      <div class="dialog">
+        <div class="dialog-item"><span class="dialog-who m">М:</span><span class="dialog-text">Привет, зачем переезжаешь, откуда?</span></div>
+        <div class="dialog-item"><span class="dialog-who v">В:</span><span class="dialog-text">Привет, переезжаю с (город) в (город) по работе. Офис открываю для сотрудников.</span></div>
+        <div class="dialog-item"><span class="dialog-who m">М:</span><span class="dialog-text">Ого, а что за работа?</span></div>
+        <div class="dialog-item"><span class="dialog-who v">В:</span><span class="dialog-text">Я NFT-аналитик, набрала команду, теперь доросли до своего офиса. С учётом доходов команды — около 1.5-2 млн.</span></div>
+      </div>
+      <p><strong>Кому подходит:</strong> мамонты, которые спрашивают про работу и хотят понять, откуда у тебя деньги. Легенда с офисом показывает серьёзный уровень и вызывает уважение.</p>
+
+      <div class="sub-title">Стиль общения (из всех мануалов)</div>
+      <ul>
+        <li><strong>Строго, без панибратства</strong> — ты не подружка, ты занятая женщина. Мамонт должен чувствовать, что ты делаешь ему одолжение.</li>
+        <li><strong>В вопросах денег — жёсткий эксперт</strong> — уверенные формулировки, никаких «может быть» и «наверное».</li>
+        <li><strong>В быту — милая и простая</strong> — смейся над его шутками, спрашивай совета, будь «своей девчонкой».</li>
+        <li><strong>Эмоциональные качели</strong> — чередуй холодность и теплоту. То эксперт, то простая девчонка. Это держит интерес.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="8" cy="8" r="5.5"/><path d="M8 4.5v3.5l2 1"/></svg>
+        Психологические установки
+      </div>
+      <ul>
+        <li><strong>Продаётся мечта, а не кнопка.</strong> Мамонту плевать на блокчейн. Ему нужно закрыть кредит, купить машину, уволиться с завода. Говори о том, что ему дадут деньги, а не о технологии.</li>
+        <li><strong>Эмоциональные качели.</strong> В быту — милая и простая. В деньгах — жёсткий эксперт, который ведёт диалог. Контраст заставляет его доверять и одновременно уважать.</li>
+        <li><strong>Лидерская позиция.</strong> Ты — занятая женщина, которая делает ему одолжение, делясь инсайдом. Он должен это чувствовать с первого дня.</li>
+        <li><strong>Упорство.</strong> На каждом мамонте ты набиваешь руку. Провалы — это опыт. Никогда не думай, что делаешь что-то не так. Просто продолжай.</li>
+        <li><strong>Терпение.</strong> Качественный прогрев — от 5 дней. Чем дольше прогреваешь, тем выше шанс на крупный профит. Не спеши.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="2" y="2.5" width="12" height="10" rx="2"/><path d="M5 6h6M5 8.5h4"/></svg>
+        Отбор целевой аудитории
+      </div>
+      <div class="card-sub">
+        <div class="sub-title">Кого берём в работу</div>
+        <ul>
+          <li>Военные (особенно в приграничных городах — их много в ЛДВ)</li>
+          <li>Работяги с копейкой в кармане, 25-45 лет</li>
+          <li>Люди от 40 из постсоветских стран — доверчивые, плохо разбираются в интернете</li>
+          <li>Те, кто в ЛДВ меньше недели, только начал лайкать — их ещё не обработали другие воркеры</li>
+        </ul>
+      </div>
+      <div class="card-sub">
+        <div class="sub-title">Кого сразу отсеиваем</div>
+        <ul>
+          <li>Мигранты, школьники, фото на «тапок»</li>
+          <li>На яхтах и дорогих машинах — они «прохаванные», денег не дадут</li>
+          <li>Те, кто пишет пошлости или «ты очередная с криптой»</li>
+          <li>Кто требует встречу сразу или «только живое общение»</li>
+        </ul>
+      </div>
+      <div class="tip"><strong>Совет:</strong> в начале диалога спроси «Давно в дайвинчике?». Идеальный мамонт — 2 дня-неделя. Если сидит месяц и больше — его уже обработали, не трать время.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2 5l6-3 6 3v6l-6 3-6-3V5z"/><circle cx="8" cy="8" r="1.5"/></svg>
+        Быстрые советы для старта
+      </div>
+      <ul>
+        <li><strong>Проверь мамонта в начале:</strong> узнай возраст, город, чем занимается. Подстраивай легенду под него. Если он военный — одну историю, если работяга — другую.</li>
+        <li><strong>Никогда не пиши первой в ЛДВ.</strong> Только жди, когда он напишет. Если написала ты — ты уже в позиции снизу, и всё будет сложнее.</li>
+        <li><strong>Имей 2-3 твинка</strong> (запасные аккаунты в Telegram). В случае подозрений: «Вот один из моих самых успешных учеников, напиши ему, спроси». Твинк подтверждает легенду.</li>
+        <li><strong>Не копируй готовые тексты</strong> из мануалов в анкету ЛДВ — банят мгновенно. Пиши своим языком, добавляй живые детали.</li>
+        <li><strong>После завода смени аккаунт</strong> — если мамонт понял, что его кинули, он будет искать тебя и жаловаться.</li>
+        <li><strong>Веди учёт:</strong> сколько общалась, сколько депнул, по какой схеме работала. Через месяц увидишь, что приносит деньги, а что нет.</li>
+      </ul>
+      <div class="tip"><strong>Главное от Фомы:</strong> «Никогда не думай, что делаешь что-то не так. Просто упорно работай. На тупых мамонтах, которые не депают, ты набиваешь руку. Везде есть плюсы».</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="theme-line"></div>
+
+<!-- ===== PART 2: ТРАФИК ===== -->
+<div class="section" id="part2">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="icon-wrap" style="background:rgba(139,92,246,0.1)">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#C084FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="9" r="7"/>
+        <path d="M9 3v6l3.5 2"/>
+      </svg>
+    </div>
+    <h2>Источники трафика — где искать мамонтов</h2>
+    <span class="count">5</span>
+    <div class="progress-dots"><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div></div>
+    <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+  <div class="section-body">
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><polygon points="2,4 8,1 14,4 14,12 8,15 2,12"/><circle cx="8" cy="8" r="2"/></svg>
+        ЛДВ (Дайвинчик) — @leomatchbot
+      </div>
+      <p><strong>Основной источник трафика.</strong> Бесплатный, большой поток людей. Нужно правильно заполнить анкету и соблюдать правила.</p>
+      <div class="toggle-wrap">
+        <div class="toggle-header" onclick="toggleBody(this)">
+          <svg viewBox="0 0 14 14" fill="none" stroke="#8B5CF6" stroke-width="1.2" stroke-linecap="round"><circle cx="7" cy="7" r="5"/><path d="M7 4v3l2 1"/></svg>
+          Как создать анкету
+          <svg class="arrow-t" viewBox="0 0 13 13" fill="none"><path d="M3.5 5l3 3 3-3" stroke="currentColor" stroke-width="1.4"/></svg>
+        </div>
+        <div class="toggle-body">
+          <ul>
+            <li><strong>Возраст:</strong> 19-20 (максимальный поток, мамонты неопытные) или 22-27 (конкуренция выше)</li>
+            <li><strong>Город:</strong> 100-250 тыс. населения — идеально. Ниже 100 — мало народу. Выше 600 — риск теневого бана</li>
+            <li><strong>Имя:</strong> Алиночка, Танюшик, Кристи — мило, без пошлости</li>
+            <li><strong>О себе:</strong> никакого упоминания про заработок, NFT, крипту. Только живое описание — хобби, прогулки, готовка</li>
+            <li><strong>Фото:</strong> 3-5 фото обычной девушки. Брать из ВК (женские паблики) или TikTok (девушки с TG-каналами)</li>
+          </ul>
+          <div class="tip"><strong>Важно:</strong> не ставь фото из инстаграма моделей — мамонты их уже видели. Нужна именно «обычная девушка», чтобы вызывать доверие.</div>
+        </div>
+      </div>
+      <div class="toggle-wrap">
+        <div class="toggle-header" onclick="toggleBody(this)">
+          <svg viewBox="0 0 14 14" fill="none" stroke="#8B5CF6" stroke-width="1.2" stroke-linecap="round"><path d="M7 1v12M1 7h12"/></svg>
+          Правила работы
+          <svg class="arrow-t" viewBox="0 0 13 13" fill="none"><path d="M3.5 5l3 3 3-3" stroke="currentColor" stroke-width="1.4"/></svg>
+        </div>
+        <div class="toggle-body">
+          <ul>
+            <li><strong>НЕ писать первыми.</strong> Только ждать, когда мамонт напишет сам. Если написала ты — ты в позиции снизу.</li>
+            <li><strong>Лайкать:</strong> на 2 лайка — 1 дизлайк. Не всех подряд, иначе алгоритм сочтёт за бота.</li>
+            <li><strong>Теневой бан:</strong> если прилетел — создавай новый аккаунт. Не пытайся переделать старый, это не работает.</li>
+            <li><strong>Не копируй готовые тексты</strong> из мануалов в анкету — это быстрый путь к бану. Фантазируй сам.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><polygon points="3,12 3,4 13,8"/></svg>
+        Альтернативы ЛДВ
+      </div>
+      <p>Кроме ЛДВ есть боты, где сидят «невыебанные» мамонты — их ещё не обработали десятки воркеров. Они более доверчивые и менее подозрительные.</p>
+      <p><strong>Рекомендуемые боты:</strong> <strong>@bibinto</strong>, <strong>@Xo_co</strong> и аналоги.</p>
+      <div class="tip"><strong>Совет:</strong> запускай анкету сразу в нескольких ботах, но ставь один и тот же город — чтобы не путаться, кто из какого города.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="1" y="4" width="14" height="9" rx="2"/><path d="M5 8.5h6"/></svg>
+        Чаты Telegram
+      </div>
+      <p>Заходишь в группы и в списке участников ищешь кандидатов. Это ручная работа, но даёт хороший целевой трафик.</p>
+      <p><strong>Какие чаты искать:</strong></p>
+      <ul>
+        <li>Матрицы и пирамиды — там уже сидят люди, готовые вкладывать деньги</li>
+        <li>Поиск работы и вакансии</li>
+        <li>Посиделки мам в декрете</li>
+        <li>Вахтовики и рабочие чаты</li>
+      </ul>
+      <p><strong>Избегать:</strong> чаты, где уже сидят мошенники — участников уже обработали, толку не будет.</p>
+      <p><strong>Отбор по профилю:</strong> низкокачественные фото, картинки с цитатами, возраст от 40, без сильного разбора в интернете — это идеальная ЦА.</p>
+      <div class="tip"><strong>Совет:</strong> в своём профиле поставь минимум 5 фото и интересное описание. Если фото мало — скажи, что сменила номер и восстанавливаешь профиль.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="1.5" y="5" width="13" height="8" rx="1.5"/><path d="M4.5 2l3.5 3 3.5-3"/></svg>
+        Схема «Дизайнер» (для чатов вакансий)
+      </div>
+      <p>Клиент отписал в чате вакансий. Не отвечаем сразу — ждём 10-20 минут, чтобы он немного «потомился».</p>
+      <div class="quote">«Здравствуйте, к сожалению, мы уже нашли дизайнера. Могу ли я вам предложить другую вакансию?»</div>
+      <p>Клиент, который хочет заработать, соглашается. Дальше:</p>
+      <ul>
+        <li>Рассказываешь про перепродажу NFT</li>
+        <li>Говоришь, что ищешь учеников — обучение бесплатно</li>
+        <li>Твой интерес — 25% от прибыли клиента</li>
+        <li><strong>Ключевой аргумент:</strong> лицензия от ЦБ РФ на деятельность с цифровыми активами (подготовь документ заранее)</li>
+      </ul>
+      <p><strong>Механика:</strong> даёшь теорию (статью с гугла про NFT) → заводишь в бота → делаешь фейк-деп 4-5к → крутишь до 20-25к → даёшь вывести с отрисовкой. После этого клиент привязан и готов депать свои деньги.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M8 1v3M8 12v3M1 8h3M12 8h3"/><circle cx="8" cy="8" r="2"/></svg>
+        Выбор города для ЛДВ
+      </div>
+      <p>От города зависит, какие мамонты тебе будут попадаться. <strong>Фишка от Фомы:</strong> лично он советует выбирать города ближе к границе с Украиной — там больше всего военных, которые регистрируются в ЛДВ каждый день. Это самая горячая ЦА.</p>
+      <ul>
+        <li><strong>Города у границы</strong> — военные, доверчивые, с деньгами, ищут общения. Лучший вариант.</li>
+        <li><strong>Города 100-250 тыс.</strong> — идеальный размер. Люди не «прохаванные», но трафик стабильный.</li>
+        <li><strong>Ниже 100 тыс.</strong> — мало людей, мало мамонтов, не трать время.</li>
+        <li><strong>От 600 тыс.</strong> — высокий риск теневого бана, конкуренция огромная.</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<div class="theme-line"></div>
+
+<!-- ===== PART 3: ПРОГРЕВ ===== -->
+<div class="section" id="part3">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="icon-wrap" style="background:rgba(139,92,246,0.1)">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="9,2 16,9 9,16 2,9"/>
+        <circle cx="9" cy="9" r="1.5"/>
+      </svg>
+    </div>
+    <h2>Прогрев — как подготовить мамонта</h2>
+    <span class="count">7</span>
+    <div class="progress-dots"><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div></div>
+    <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+  <div class="section-body">
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="8" cy="8" r="5.5"/><path d="M8 4.5v3.5l2 1"/></svg>
+        День 1 — Квалификация и знакомство
+      </div>
+      <p><strong>Задача:</strong> понять, подходит ли мамонт, и заинтересовать его.</p>
+      <p>Общайтесь много, узнайте друг друга. Если мамонту интересно — он будет писать первым. В какой-то момент пропади на 1-2 часа, потом скажи, что работала. Он спросит где — отвечай про трейдинг.</p>
+      <div class="sub-title">Формирование «боли»</div>
+      <p>Узнай, чем живёт мамонт. Вбрось тему:</p>
+      <div class="quote">«Я вот сегодня смену в салоне отменила, крипта дала заработать, кайфую в кафе»</div>
+      <p>Спроси про его мечту. Когда скажет, что денег нет:</p>
+      <div class="quote">«Я тоже пахала до боли в спине, пока не начала использовать знания экономики в NFT и трейдинге»</div>
+      <p><strong>Личная тема:</strong> найди с мамонтом общие интересы. Без интимов. Много смейся с его шуток — это поднимает интерес в разы. Он должен чувствовать, что ты ему рада.</p>
+      <div class="tip"><strong>Совет:</strong> пусть мамонт рассказывает о себе больше, чем ты. Это создаёт ощущение, что ты к нему неравнодушна, и привязывает его к тебе.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2 8l6-4 6 4-6 4-6-4z"/></svg>
+        День 2 — Завоевание доверия
+      </div>
+      <p>Мамонт должен рассказывать о себе больше, чем ты. Пропадаешь на 2-3 часа, потом кидаешь отрисованный чек на 30-50к:</p>
+      <div class="quote">«Вот, сегодня хорошо подзаработала»</div>
+      <p>Мамонт видит свою месячную зарплату на одном скрине за один день. У него начинает бить адреналин — он начинает активнее интересоваться трейдом.</p>
+      <div class="tip"><strong>Совет:</strong> не кидай чеки каждый день. Делай паузы, чтобы не выглядело подозрительно. 1-2 скрина в неделю — достаточно.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><polygon points="4,12 4,4 12,8"/></svg>
+        День 3 — Выбор вектора
+      </div>
+      <p><strong>Задача:</strong> понять, на что мамонт лучше клюнет, и подвести к этому.</p>
+      <p><span class="tag tag-purple">Трейдинг</span> <strong>«Знакомый из аналитики говорит — сейчас бычья фаза, будет мощный памп»</strong></p>
+      <p>Подходит для тех, кто хочет быстро. Акцент на скорости и деньгах.</p>
+      <p><span class="tag tag-gold">NFT</span> <strong>«Сегодня ночью выходят коллекции от пекинских авторов. Коллега вчера взял за 70$, к вечеру продал за 500$»</strong></p>
+      <p>Подходит для тех, кто любит «красивые истории». Акцент на уникальности и удаче.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="3" y="3" width="10" height="10" rx="2"/><path d="M8 6v4M6 8h4"/></svg>
+        Тест на подарок — проверка лояльности
+      </div>
+      <p>Перед заводом попроси мамонта выбрать маникюр:</p>
+      <div class="quote">«Может, порадуешь меня этим маникюром? Был бы приятный знак внимания»</div>
+      <p><strong>Если согласился и перевёл деньги</strong> — он уже готов, можно заводить сразу.</p>
+      <p><strong>Если отказал</strong> — используй это как мостик к заводу:</p>
+      <div class="quote">«Понимаю, сейчас туго. Давай я тебе помогу заработать?»</div>
+      <p>Этот тест показывает, насколько мамонт готов тратить на тебя деньги. Если он не готов даже на 1-2к на маникюр — готовься к тому, что депозит будет маленьким.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M8 1v14M1 8h14"/></svg>
+        4 сценария поведения мамонта
+      </div>
+      <div class="toggle-wrap">
+        <div class="toggle-header" onclick="toggleBody(this)">
+          <span class="tag tag-success">Интерес</span> Сам пишет, задаёт вопросы
+          <svg class="arrow-t" viewBox="0 0 13 13" fill="none"><path d="M3.5 5l3 3 3-3" stroke="currentColor" stroke-width="1.4"/></svg>
+        </div>
+        <div class="toggle-body"><p>Всё идёт по плану. Поддерживай разговор, углубляй интерес. Переходи к заводу.</p></div>
+      </div>
+      <div class="toggle-wrap">
+        <div class="toggle-header" onclick="toggleBody(this)">
+          <span class="tag tag-gold">Пассивный</span> Не проявляет интереса
+          <svg class="arrow-t" viewBox="0 0 13 13" fill="none"><path d="M3.5 5l3 3 3-3" stroke="currentColor" stroke-width="1.4"/></svg>
+        </div>
+        <div class="toggle-body"><p>Начинай общение сама. Если продолжает быть вялым — предлагай торговать сразу, не трать время.</p></div>
+      </div>
+      <div class="toggle-wrap">
+        <div class="toggle-header" onclick="toggleBody(this)">
+          <span class="tag tag-danger">Нет интереса</span> Вообще не хочет зарабатывать
+          <svg class="arrow-t" viewBox="0 0 13 13" fill="none"><path d="M3.5 5l3 3 3-3" stroke="currentColor" stroke-width="1.4"/></svg>
+        </div>
+        <div class="toggle-body"><p>Прогревай минимум 2-3 дня через личное общение. Сначала добейся интереса к себе, потом к деньгам.</p></div>
+      </div>
+      <div class="toggle-wrap">
+        <div class="toggle-header" onclick="toggleBody(this)">
+          <span class="tag tag-purple">Сам спросил</span> Про трейд и заработок
+          <svg class="arrow-t" viewBox="0 0 13 13" fill="none"><path d="M3.5 5l3 3 3-3" stroke="currentColor" stroke-width="1.4"/></svg>
+        </div>
+        <div class="toggle-body"><p>Лучший сценарий. Аккуратно подводи к тому, что биржа в телеграме, пополнение через перевод. Не тяни — пока интерес горячий, заводи.</p></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M4 8h8M8 4v8"/></svg>
+        Предварительный прогрев — за день до завода
+      </div>
+      <p><strong>Ключевой момент.</strong> За день до завода нужно подготовить мамонта. Когда он спрашивает, когда спать, или просто в разговоре:</p>
+      <div class="quote">«Да я сегодня поздно лягу — коллекции новые выходят, надо успеть забрать по флору (начальной цене)»</div>
+      <p>Когда он заинтересуется:</p>
+      <div class="quote">«Есть известные иностранные авторы, которые выпускают NFT не так часто, зато они ценны. У меня коллега недавно купил пару токенов по 70$ — к вечеру уже ~500$ была цена»</div>
+      <p>Через пару часов — кидаешь скрин об успешной покупке. На следующий день — скрин об успешной продаже (купил за 90$, продал за 450$).</p>
+      <p><strong>Важно:</strong> все скрины и отрисовки должны быть от 300-400$. Никаких 10-20$ — это убивает доверие. Мамонт должен видеть большие цифры.</p>
+      <div class="tip"><strong>Совет:</strong> если мамонт просит об обучении — не соглашайся. Держи интригу. Скажи, что у тебя для него есть предложение намного выгоднее обычной торговли.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2 10l4-4 3 3 4-4"/></svg>
+        Полный пример диалога прогресса (из реального мануала)
+      </div>
+      <p>Вот как выглядит успешный прогрев от «Привет» до интереса к деньгам:</p>
+      <div class="dialog">
+        <div class="dialog-item"><span class="dialog-who m">М:</span><span class="dialog-text">Привет, зачем переезжаешь, откуда?</span></div>
+        <div class="dialog-item"><span class="dialog-who v">В:</span><span class="dialog-text">Переезжаю в (город) по работе. Офис открываю для сотрудников.</span></div>
+        <div class="dialog-item"><span class="dialog-who m">М:</span><span class="dialog-text">Ого, а что за работа?</span></div>
+        <div class="dialog-item"><span class="dialog-who v">В:</span><span class="dialog-text">Я NFT-аналитик. Набрала команду, доросли до офиса.</span></div>
+        <div class="dialog-item"><span class="dialog-who m">М:</span><span class="dialog-text">И сколько зарабатываете?</span></div>
+        <div class="dialog-item"><span class="dialog-who v">В:</span><span class="dialog-text">Около 1.5-2 млн на команду.</span></div>
+      </div>
+      <p>После этого мамонт заинтересован и сам будет искать тему для продолжения. Твоя задача — поддерживать разговор и постепенно подводить к тому, что деньги можно делать на трейдинге/NFT.</p>
+    </div>
+
+  </div>
+</div>
+
+<div class="theme-line"></div>
+
+<!-- ===== PART 4: ЗАВОД ===== -->
+<div class="section" id="part4">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="icon-wrap" style="background:rgba(139,92,246,0.1)">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#C084FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 1v16M1 9h16"/>
+        <circle cx="9" cy="9" r="3"/>
+      </svg>
+    </div>
+    <h2>Завод в бота — как получить депозит</h2>
+    <span class="count">8</span>
+    <div class="progress-dots"><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div></div>
+    <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+  <div class="section-body">
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2 8l12-4v8L2 8z"/></svg>
+        День Х — запуск NFT-схемы
+      </div>
+      <p><strong>Это самый важный день.</strong> Заранее узнай, когда мамонт будет свободен. Выбери время, когда у него точно нет дел.</p>
+      <div class="sub-title">Как запустить</div>
+      <p>Когда мамонт спрашивает про планы или сам напоминает о себе:</p>
+      <div class="quote">«Сегодня опять выходят новые коллекции от известных авторов из Пекина. Старт продаж в (время, когда он свободен). Прям день Х — можно нафармить много бабок»</div>
+      <div class="sub-title">Предложение</div>
+      <div class="quote">«Слушай, ты так интересовался моей сферой, предлагаю вместе поймать коллекционные токены. Первый опыт — с хорошей прибылью»</div>
+      <div class="sub-title">Цена и доходность</div>
+      <p><strong>Цена токена:</strong> под ЗП мамонта. Если ЗП 70-80к → цена токена 5-7к. Если ЗП 150к → цена 10-15к.</p>
+      <p><strong>Доходность:</strong> «В х7-х8 точно выйдем, а там посмотрим по графику роста».</p>
+      <div class="sub-title">Депозит</div>
+      <div class="quote">«Я планирую круг начать с 20-25к, чтобы успеть словить несколько токенов. Ты что думаешь?»</div>
+      <p>Кидаешь реферальную ссылку и говоришь: «Айда пока пополним балик, чтобы успеть купить, а не шариться в кошельке».</p>
+      <div class="tip"><strong>Совет:</strong> создавай дефицит времени. «Дроп через 2 часа», «Точка входа закроется через 15 минут». Мамонт не должен успевать думать — он должен успевать платить.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><polygon points="4,12 4,4 12,8"/></svg>
+        Схема «Сплит-система» — для сомневающихся
+      </div>
+      <p><strong>Когда использовать:</strong> мамонт хочет, но боится. Боится, что его кинут, что деньги пропадут, что он не разберётся.</p>
+      <p><strong>Суть:</strong> создаёшь иллюзию, что ты тоже вкладываешь свои деньги. Это резко повышает доверие.</p>
+      <div class="quote">«Можем сплит-системой пополнить личный кабинет: ты создаёшь заявку на 5000₽, я её оплачиваю. Потом ты создаёшь новую — и тоже оплачиваешь. Работаем от 10000₽»</div>
+      <p>Мамонт видит, что ты тоже «рискуешь» своими деньгами — и перестаёт бояться.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><polygon points="2,5 8,2 14,5 14,11 8,14 2,11"/></svg>
+        Схема «Фейк-прокрут» — самая сильная
+      </div>
+      <p><strong>Самая эффективная схема.</strong> Мамонт своими глазами видит, как работает система, и начинает верить безоговорочно.</p>
+      <div class="steps">
+        <div class="step"><div class="step-title">Шаг 1: Попроси о помощи</div><p>«У меня заблокировали биржу на время мерчанта. Помоги поторговать через твой аккаунт. Я пополню — ты выведешь мне обратно».</p></div>
+        <div class="step"><div class="step-title">Шаг 2: Регистрация</div><p>Кидаешь ему реферальную ссылку бота. Он регистрируется.</p></div>
+        <div class="step"><div class="step-title">Шаг 3: Фейк-реквизиты</div><p>Он запрашивает реквизиты на 4-13к. Ты в панели воркера жмёшь «Отправить фейк-реквизиты». Он скидывает их тебе. Ты кидаешь фейк-скрин перевода и жмёшь «Оплатить». Деньги на его счету.</p></div>
+        <div class="step"><div class="step-title">Шаг 4: Накрутка</div><p>Ставишь WIN (100% удача). Даёшь сигналы от балды: «Солана, повышение, минута, 13000₽». Крутишь до 40-50к.</p></div>
+        <div class="step"><div class="step-title">Шаг 5: Вывод</div><p>Говоришь выводить. Используешь фейк-реквизиты через проверенного человека. Кидаешь отрисованный скрин пополнения своей карты.</p></div>
+      </div>
+      <p><strong>Результат:</strong> мамонт видел всё своими глазами. Он либо сам просит научить, либо с радостью соглашается на твоё предложение.</p>
+      <div class="tip"><strong>Совет:</strong> для реалистичности ставь коэффициент движения цены 1-2%. График будет расти плавно, и мамонт поверит, что это настоящая биржа.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="3" y="2" width="10" height="12" rx="1.5"/><path d="M6 6h4M6 9h2"/></svg>
+        Схема «Лимит карт» — показать кухню
+      </div>
+      <p>Ещё один способ показать мамонту, что платформа реально платит:</p>
+      <ul>
+        <li>«У меня лимит, прохожу мерчанта, помоги прокрутить баланс»</li>
+        <li>Даёшь ему данные бота — он видит, как ты делаешь х3-х4 за несколько минут</li>
+        <li>Делаешь вывод, кидаешь отрисованный чек</li>
+      </ul>
+      <p>После этого мамонт верит, что платформа реально выводит деньги.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="1.5" y="4" width="13" height="9" rx="1.5"/><path d="M4.5 1.5l3.5 3 3.5-3"/></svg>
+        Схема «Блокировка карт» — для чатов
+      </div>
+      <p><strong>Используется в работе через чаты Telegram.</strong></p>
+      <p>В процессе общения кидаешь мамонту скрин, что твой счёт и все карты заблокированы. Говоришь, что тебе не на что жить, а заработанные с ним деньги очень важны.</p>
+      <p>Когда мамонт пытается вывести — отменяешь вывод с сообщением:</p>
+      <div class="quote">«К сожалению, данный номер карты не был привязан к вашему аккаунту. Совершите пополнение для привязки новых реквизитов»</div>
+      <p>Говоришь, что сама с таким не сталкивалась, и просишь его сделать минимальное пополнение. Аргумент: он всё равно в плюсе, или ты вернёшь ему деньги со своей части.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M1 8h5.5L8 5l2 6 1.5-3H15"/></svg>
+        Как выбрать сумму депозита
+      </div>
+      <p><strong>Правило:</strong> 25-40% от зарплаты мамонта. Если он зарабатывает 80к — проси 20-30к. Если 150к — можно 40-50к.</p>
+      <p><strong>Главный принцип:</strong> «В трейде х1 ничего не решает. Даже 2к — уже хорошо. Главное — первый вход. Дальше раскачаешь на иксы».</p>
+      <p><strong>Создавай срочность:</strong> «Дроп через 2 часа», «Точка входа закроется через 15 минут». Мамонт не должен успевать передумать.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2 5l12-1v8l-12-1V5z"/></svg>
+        P2P-депозит через сайт
+      </div>
+      <p>Клиент на сайте заходит в P2P-торговлю, видит список фейковых продавцов с рейтингом. Выбирает продавца, вводит сумму — создаётся сделка.</p>
+      <p>Тебе в Telegram приходит уведомление: страна, сумма, банк, имя продавца.</p>
+      <ul>
+        <li><span class="tag tag-danger">Фейк реквизиты</span> — бот генерирует левую карту. Клиент переводит туда деньги. Деньги твои.</li>
+        <li><span class="tag tag-success">Реальное пополнение</span> — сделка уходит операторам, которые сами обрабатывают платёж.</li>
+      </ul>
+      <p><strong>Важно:</strong> если не нажал ничего за 30 секунд — сделка автоматически уходит в канал. Если в БД есть статическая карта — реквизиты выдаются мгновенно.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M4 12V4l8 4-8 4z"/></svg>
+        Полный диалог завода (из мануала)
+      </div>
+      <p>Вот как выглядит идеальный завод шаг за шагом:</p>
+      <div class="dialog">
+        <div class="dialog-item"><span class="dialog-who m">М:</span><span class="dialog-text">Чем занимаешься сегодня?</span></div>
+        <div class="dialog-item"><span class="dialog-who v">В:</span><span class="dialog-text">Сегодня опять выходят коллекции от пекинских авторов. Старт в 21:00. Прям день Х — можно нафармить.</span></div>
+        <div class="dialog-item"><span class="dialog-who m">М:</span><span class="dialog-text">Круто, может и мне попробовать?</span></div>
+        <div class="dialog-item"><span class="dialog-who v">В:</span><span class="dialog-text">Давай! Ты так интересовался моей сферой, предлагаю вместе поймать токены. Будет классно, первый опыт с хорошей прибылью выйдет 😊</span></div>
+        <div class="dialog-item"><span class="dialog-who m">М:</span><span class="dialog-text">А сколько надо?</span></div>
+        <div class="dialog-item"><span class="dialog-who v">В:</span><span class="dialog-text">Я планирую круг с 25к, чтобы словить несколько токенов. Тебе на первый раз хватит 5-7к за токен.</span></div>
+        <div class="dialog-item"><span class="dialog-who m">М:</span><span class="dialog-text">А сколько поднимем?</span></div>
+        <div class="dialog-item"><span class="dialog-who v">В:</span><span class="dialog-text">В х7-х8 точно выйдем. Кидаю ссылку — пополни пока баланс, чтобы успеть.</span></div>
+      </div>
+      <p><strong>Ключевой момент:</strong> после этого мамонт пополняет. Если колеблется — используй срочность: «Старт через 15 минут, не успеем».</p>
+    </div>
+
+  </div>
+</div>
+
+<div class="theme-line"></div>
+
+<!-- ===== PART 5: БОТ ===== -->
+<div class="section" id="part5">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="icon-wrap" style="background:rgba(139,92,246,0.1)">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2.5" y="4" width="13" height="10" rx="2"/>
+        <path d="M6 7.5h6M6 10.5h4"/>
+      </svg>
+    </div>
+    <h2>Работа с ботом — управление клиентом</h2>
+    <span class="count">10</span>
+    <div class="progress-dots"><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div></div>
+    <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+  <div class="section-body">
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="1.5" y="2.5" width="13" height="11" rx="1.5"/><path d="M4.5 5h7M4.5 8h7M4.5 11h4"/></svg>
+        Панель воркера
+      </div>
+      <p>Напиши боту → получишь панель управления. Реф-ссылка отображается в панели. Режим работы (Сайт или Mini App) настраивается в Настройках.</p>
+      <p><strong>Поиск клиентов:</strong> кнопка «Мои мамонты» — inline-поиск:</p>
+      <p><span class="badge badge-purple">mammoth почта@</span> <span class="badge badge-purple">name имя</span> <span class="badge badge-purple">uid ID</span> <span class="badge badge-purple">ref</span></p>
+      <p><strong>Добавление клиента:</strong> «Добавить клиента» → ввести email.</p>
+      <p><strong>Заметки:</strong> кнопка «Заметки» в профиле клиента — записывай важную информацию.</p>
+      <p><strong>Удаление:</strong> кнопка «Удалить клиента».</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="8" cy="8" r="5.5"/><path d="M8 4.5v3.5l2 1"/></svg>
+        Управление балансом
+      </div>
+      <p>В профиле клиента → кнопка «Баланс». Вводишь сумму в долларах — баланс автоматически конвертируется по курсу.</p>
+      <p>Пример: ввёл 1000 → клиент видит на балансе $1,000. Никаких реальных денег — просто цифры в базе данных.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2 11l4-4 3 3 5-6"/></svg>
+        Исход сделок (WIN / LOSE / RANDOM)
+      </div>
+      <p><strong>Ключевая настройка.</strong> Кнопка «Исход:» — три режима:</p>
+      <ul>
+        <li><span class="tag tag-success">WIN</span> — клиент всегда закрывает сделку в плюс. Ставь это для завода и накрутки.</li>
+        <li><span class="tag tag-danger">LOSE</span> — клиент всегда в минусе. Используй, если хочешь, чтобы он слил депозит.</li>
+        <li><span class="tag tag-gold">RANDOM</span> — случайный результат. Для реалистичности, когда клиент уже на крючке.</li>
+      </ul>
+      <div class="tip"><strong>Совет:</strong> для завода всегда ставь WIN. Клиент выигрывает → радуется → хочет ещё. После первого вывода можно переключить на RANDOM.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M1 12l7-8 4 4 3-5"/></svg>
+        Коэффициент движения цены
+      </div>
+      <p>Кнопка «Коэф.» — задаёшь диапазон движения цены в процентах. Формат: <span class="badge badge-purple">1-2.5</span></p>
+      <ul>
+        <li><strong>При WIN:</strong> цена движется в сторону сделки клиента</li>
+        <li><strong>При LOSE:</strong> цена движется против сделки</li>
+        <li><strong>Диапазон:</strong> от 0.1% до 25%</li>
+        <li><strong>По умолчанию:</strong> 1-5%</li>
+      </ul>
+      <p><strong>Для реалистичности:</strong> ставь 1-2%. Цена растёт плавно, клиент верит, что это настоящий рынок. Если скачет на 20% за минуту — возникают подозрения.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M6 7h4M8 5.5v3"/></svg>
+        KYC, блокировки и ограничения
+      </div>
+      <ul>
+        <li><strong>KYC:</strong> «Дать KYC» / «Снять KYC» — верификация на сайте. Для вывода нужно включить.</li>
+        <li><strong>Блок торговли:</strong> запретить клиенту торговать. Используй, если он начинается подозревать.</li>
+        <li><strong>Блок вывода:</strong> запретить вывод средств. Это ключевая функция для «пасты» — блокируешь вывод, и клиент не может забрать деньги.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><polygon points="2,12 2,4 14,4 14,12"/><circle cx="8" cy="8" r="1.5"/></svg>
+        NFT — кастомная цена
+      </div>
+      <p>Кнопка «NFT Цена»: устанавливаешь свою цену на любой NFT из каталога.</p>
+      <p>Формат: <span class="badge badge-purple">#6447</span> или <span class="badge badge-purple">pudgy-penguins:6447</span> → цена в ETH → подтвердить.</p>
+      <p>Сброс — вернёт стандартную цену. Карточку NFT можно переслать клиенту. Ты контролируешь маржу — можешь продать ему токен по завышенной цене.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M6 8h4M8 6v4"/></svg>
+        NFT — Duo токены (принудительная покупка)
+      </div>
+      <p>Кнопка «NFT Duo»: если включено — клиент может продать NFT только когда у него есть ≥2 штук одной коллекции.</p>
+      <p><strong>Схема:</strong> купил 1 → хочет продать → Duo блокирует → вынужден купить ещё один → продаёт оба. Ты получаешь в 2 раза больше.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="1.5" y="4.5" width="13" height="7" rx="1"/><path d="M4.5 2l3.5 3 3.5-3"/></svg>
+        Бонус-ссылка и лимиты
+      </div>
+      <p><strong>Бонус-ссылка:</strong> вводишь сумму бонуса в $ → получаешь TG и Web ссылки. Клиент при регистрации получает бонус на баланс. Это снижает его порог входа.</p>
+      <p><strong>Мин. депозит / вывод:</strong> настраиваются в панели для каждого клиента индивидуально.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M1 8h3l2-3 3 6 2-3h4"/></svg>
+        Фьючерсы (Futures)
+      </div>
+      <p>Клиент на сайте выбирает актив (крипта, акции, commodity), открывает вкладку Futures. Вводит сумму, плечо, сторону (UP/DOWN), время. Может поставить TP/SL (тейк-профит и стоп-лосс).</p>
+      <p>Исход зависит от настройки (WIN/LOSE/RANDOM) и коэффициента движения цены. Ставишь WIN — клиент видит красивый график и зелёный плюс.</p>
+      <div class="tip"><strong>Совет:</strong> Futures выглядят более «профессионально». Используй их для мамонтов, которые разбираются в трейдинге или хотят чувствовать себя трейдерами.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="1.5" y="4" width="13" height="9" rx="1.5"/><circle cx="8" cy="8.5" r="1.5"/></svg>
+        Чат техподдержки
+      </div>
+      <p>В профиле клиента → кнопка «Чат ТП». Все сообщения синхронизированы между сайтом и Telegram.</p>
+      <p>Ответы из TG-форума отправляются клиенту. <strong>Есть подтверждение перед отправкой</strong> — ты всегда видишь, что напишешь, прежде чем отправить.</p>
+      <p>Используй техподдержку, когда клиент паникует или задаёт неудобные вопросы. Отвечай спокойно и уверенно.</p>
+    </div>
+
+  </div>
+</div>
+
+<div class="theme-line"></div>
+
+<!-- ===== PART 6: ИКСЫ ===== -->
+<div class="section" id="part6">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="icon-wrap" style="background:rgba(139,92,246,0.1)">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#C084FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="9,2 16,9 9,16 2,9"/>
+        <polygon points="9,5.5 12.5,9 9,12.5 5.5,9"/>
+      </svg>
+    </div>
+    <h2>Накрутка и иксы — увеличиваем баланс</h2>
+    <span class="count">4</span>
+    <div class="progress-dots"><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div></div>
+    <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+  <div class="section-body">
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2 11l4-4 3 3 5-6"/></svg>
+        Первая накрутка
+      </div>
+      <p><strong>Схема:</strong> мамонт депнул 5-10к → крутим баланс до 30-40к.</p>
+      <ul>
+        <li>Даёшь сигналы «от балды» — просто команды в боте</li>
+        <li>5-10 сделок в час — не чаще, чтобы выглядело реалистично</li>
+        <li>Между сделками паузы — как на реальном рынке</li>
+      </ul>
+      <p>Даёшь токен/NFT, он покупает. Ждёшь 25-30 минут. Потом говоришь, что нашла отличный токен с большим иксом — нужен додеп на те же 5-10к, чтобы торговать двумя токенами сразу и получить прибыль x2.</p>
+      <div class="tip"><strong>Совет:</strong> не делай накрутку слишком быстро. Если за 5 минут баланс вырос в 3 раза — мамонт начнёт подозревать, что это фейк. Имитируй ожидание: «Ждём точку входа», «Тут опасно, пока не заходим».</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M8 1v5.5L11 8"/><circle cx="8" cy="8" r="5.5"/></svg>
+        Финал накрутки
+      </div>
+      <p>Накручиваешь баланс до 80-90к. <strong>Рекомендуется делать это часа 3.</strong></p>
+      <p>Почему 3 часа? Мамонт устаёт сидеть и смотреть на графики, теряет бдительность, начинает хуже соображать. После этого он хочет выводить — и тут ты включаешь «пасту».</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="8" cy="8" r="5.5"/><path d="M8 4.5v3.5l2 1"/></svg>
+        Принципы иксов
+      </div>
+      <ul>
+        <li><strong>Не рисуй профит за 5 минут.</strong> Создавай ожидание: «Ждём точку входа», «Тут опасно, не заходим». Это делает систему реалистичной.</li>
+        <li><strong>Чем дольше накрутка — тем реалистичнее.</strong> Мамонт видит, что ты «серьёзно торгуешь», а не просто нажимаешь кнопки.</li>
+        <li><strong>График должен быть плавным.</strong> Никаких рывков на 50% вверх за минуту. Плавный рост — это профессионально.</li>
+        <li><strong>Добавляй просадки.</strong> Иногда цена должна идти вниз, а потом восстанавливаться. Полностью «зелёный» график выглядит подозрительно.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M3 12l4-4 2.5 2.5L13 5"/></svg>
+        Как делать реалистичные сделки
+      </div>
+      <ul>
+        <li>Ставь <strong>коэффициент 1-2%</strong> — цена растёт плавно, как на настоящей бирже</li>
+        <li>Делай <strong>5-10 сделок в час</strong>, не чаще</li>
+        <li>Между сделками <strong>пауза 5-10 минут</strong></li>
+        <li>Иногда говори: <strong>«Сегодня рынок вялый, но мы всё равно в плюсе»</strong></li>
+        <li>Не все сделки должны быть WIN. 1 LOSE на 10 WIN — для реализма</li>
+      </ul>
+      <div class="tip"><strong>Совет:</strong> используй RANDOM после того, как мамонт уже сделал первый депозит. Это выглядит реальнее, чем 100% WIN.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="theme-line"></div>
+
+<!-- ===== PART 7: ВЫВОД ===== -->
+<div class="section" id="part7">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="icon-wrap" style="background:rgba(139,92,246,0.1)">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 14L14 4"/>
+        <path d="M12 14l2-2v2h-2z" fill="#8B5CF6"/>
+        <path d="M6 4L4 6V4h2z" fill="#8B5CF6"/>
+      </svg>
+    </div>
+    <h2>Вывод и добивание — как забрать деньги</h2>
+    <span class="count">4</span>
+    <div class="progress-dots"><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div></div>
+    <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+  <div class="section-body">
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M6 6h4M6 8.5h2"/></svg>
+        Паста вывода — как заблокировать вывод
+      </div>
+      <p>Когда клиент нажимает «Вывод», вводит сумму и реквизиты, происходит одно из двух:</p>
+      <p><strong>Если withdraw_blocked = True (по умолчанию):</strong></p>
+      <ul>
+        <li>Спиннер 1.8 секунды</li>
+        <li>Появляется сообщение-«паста»</li>
+        <li>Баланс НЕ списывается</li>
+        <li>Кнопка «Написать в поддержку»</li>
+      </ul>
+      <p><strong>Если withdraw_blocked = False:</strong></p>
+      <ul>
+        <li>Спиннер 2.2 секунды</li>
+        <li>Баланс реально списывается</li>
+        <li>SUCCESS_APPROVED</li>
+      </ul>
+      <p><strong>Типы паст:</strong></p>
+      <ul>
+        <li>Стандартная — «Техподдержка разберёт»</li>
+        <li>Шаблоны с иконками — разные варианты сообщений</li>
+        <li>Если нет конкретной пасты — «Ошибка BZ» (красная)</li>
+      </ul>
+      <p><strong>Важно:</strong> по умолчанию у всех новых юзеров вывод заблокирован. Ты сам решаешь, кому разблокировать. Это твой главный инструмент контроля.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="1.5" y="2.5" width="13" height="11" rx="1.5"/><path d="M4.5 5h7M4.5 8h7M4.5 11h4"/></svg>
+        Лестница платежей — этапы добивания
+      </div>
+      <p>Когда мамонт видит на балансе 100-200к и хочет вывести, он проходит через этапы. Каждый этап — это дополнительный платёж.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Этап</th><th>Легенда</th><th>Сколько просить</th></tr>
+          <tr><td>Верификация (KYC)</td><td>«Стандарт биржи» — подтвердить личность</td><td>Сумма = выводу или фикс 10к</td></tr>
+          <tr><td>Мерчант</td><td>«Безопасный шлюз» — покупка спецсчёта для работы с банками</td><td>15-30% от суммы</td></tr>
+          <tr><td>НДФЛ</td><td>«Налог на доход» — 13-15% перед выводом</td><td>13-15% от прибыли</td></tr>
+          <tr><td>Роялти/VIP</td><td>«Пассивный доход» — доплата за токен с % от перепродаж</td><td>Индивидуально</td></tr>
+        </table>
+      </div>
+      <p><strong>Рекомендация:</strong> верификацию делай 10к, если первый депозит был меньше 5к. Если мамонт уже вложил много — можно запросить больше.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="8" cy="8" r="5.5"/><path d="M5 8h6M8 5v6"/></svg>
+        Работа с возражениями — «Мамочка»
+      </div>
+      <p>Когда мамонт видит требование налога или верификации — он паникует. Твоя задача — успокоить его и заставить заплатить.</p>
+      <p><span class="tag tag-danger">Газлайтинг</span> <strong>«Ты чего, испугался? У меня в первый раз тоже так было. Мы там 150к подняли, ты из-за этой мелочи всё потеряешь? Я думала, ты мужчина...»</strong></p>
+      <p>Удар по самооценке работает отлично. Мамонт не хочет выглядеть трусом.</p>
+      <p><span class="tag tag-success">Поддержка</span> <strong>«Не тупи, я рядом. Давай доделаем и пойдём отмечать»</strong></p>
+      <p>После удара — поддержка. Ты не просто давишь, ты ещё и «заботишься».</p>
+      <div class="sub-title">Полный диалог обработки возражений</div>
+      <div class="dialog">
+        <div class="dialog-item"><span class="dialog-who m">М:</span><span class="dialog-text">Блин, меня просят налог заплатить. Это кидалово?</span></div>
+        <div class="dialog-item"><span class="dialog-who v">В:</span><span class="dialog-text">Ой, ну ты чего? На всех биржах так. Это НДФЛ, 13%. Государство хочет свою долю.</span></div>
+        <div class="dialog-item"><span class="dialog-who m">М:</span><span class="dialog-text">А если я не заплачу?</span></div>
+        <div class="dialog-item"><span class="dialog-who v">В:</span><span class="dialog-text">Тогда не выведешь. Но ты посмотри — у тебя там 150к. 13% — это 20к. Отдай 20к и забери 130к. Нормальный трейд, не?</span></div>
+        <div class="dialog-item"><span class="dialog-who m">М:</span><span class="dialog-text">Ну не знаю...</span></div>
+        <div class="dialog-item"><span class="dialog-who v">В:</span><span class="dialog-text">Слушай, я думала, ты мужик. Там 150к лежит, а ты паришься из-за 20к. Давай уже закругляйся, я устала. Хочу отметить нашу сделку 🥂</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M8 1v3M8 12v3M1 8h3M12 8h3"/><circle cx="8" cy="8" r="2"/></svg>
+        Стратегия поведения на каждом этапе
+      </div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Этап</th><th>Что делать</th><th>Чего не делать</th></tr>
+          <tr><td>KYC</td><td>Объясни, что это стандарт биржи. «Все проходят, это безопасно»</td><td>Не дави слишком сильно — он может испугаться и уйти</td></tr>
+          <tr><td>Мерчант</td><td>Скажи, что без этого нельзя работать с банками РФ. «Это для твоей же безопасности»</td><td>Не смейся, если он не понимает терминов</td></tr>
+          <tr><td>НДФЛ</td><td>«Государство хочет свою долю. Заплати 13% и забери 100%»</td><td>Не говори, что можно не платить — это разрушит легенду</td></tr>
+          <tr><td>Роялти</td><td>«Это токен, который будет приносить тебе % с каждой перепродажи. Окупится за месяц»</td><td>Не предлагай, если мамонт уже на пределе</td></tr>
+        </table>
+      </div>
+      <div class="tip"><strong>Главное правило:</strong> мамонт уже вложил деньги. Ему психологически трудно отказаться — он не хочет потерять то, что уже «заработал». Используй это. Каждый следующий платёж кажется ему «последним шагом» к деньгам.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="theme-line"></div>
+
+<!-- ===== PART 8: СХЕМЫ ===== -->
+<div class="section" id="part8">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="icon-wrap" style="background:rgba(139,92,246,0.1)">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#C084FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="9" r="7"/>
+        <path d="M9 5v4l2.5 1.5"/>
+      </svg>
+    </div>
+    <h2>Полные схемы и ключевые фразы</h2>
+    <span class="count">5</span>
+    <div class="progress-dots"><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div></div>
+    <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+  <div class="section-body">
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2 11l4-4 3 3 5-6"/></svg>
+        Полный цикл работы — агрессивная схема
+      </div>
+      <p>Эта схема — максимум профита с одного лида. Используй, когда не планируешь работать с мамонтом долго.</p>
+      <div class="steps">
+        <div class="step"><p>Кидаешь реф-ссылку или бонус-ссылку</p></div>
+        <div class="step"><p>Клиент регистрируется, делает P2P-депозит</p></div>
+        <div class="step"><p>Жмёшь «Фейк реквизиты» (или автовыдача статической карты)</p></div>
+        <div class="step"><p>Клиент переводит деньги на левую карту — ты их забираешь</p></div>
+        <div class="step"><p>Ставишь WIN — клиент торгует, баланс растёт</p></div>
+        <div class="step"><p>При выводе — паста (блокировка / ошибка BZ)</p></div>
+        <div class="step"><p>Клиент в саппорт — кормишь завтраками, тянешь время</p></div>
+      </div>
+      <p><strong>Результат:</strong> деньги у тебя, мамонт в процессе «верификации». Через 2-3 дня он понимает, что его кинули, но ты уже недоступна.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="8" cy="8" r="5.5"/><path d="M5.5 8l2 2 3-4"/></svg>
+        Честная схема — для долгосрочных отношений
+      </div>
+      <p><strong>Депозит → WIN → разблокируешь вывод → баланс списывается → клиент доволен → возвращается снова → приводит друзей.</strong></p>
+      <p>Плюсы: мамонт приводит рефералов, можно работать с ним месяцами. Минусы: меньше профита с одного лида.</p>
+      <p><strong>Когда использовать:</strong> если мамонт платёжеспособный, доверчивый и у него есть богатые друзья. <strong>Важно:</strong> в этой схеме ты реально даёшь ему вывести деньги 1-2 раза, чтобы он поверил и привёл рефералов. Потом можно закрывать по агрессивной схеме.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M1 8h14M8 1v14"/></svg>
+        Твинки — дополнительные аккаунты
+      </div>
+      <p>Рекомендуется иметь 2-3 твинка (дополнительных аккаунта в Telegram) на случай подозрений.</p>
+      <p>Когда мамонт сомневается — скидываешь контакт «успешного ученика»:</p>
+      <div class="quote">«Вот один из моих самых успешных учеников, напиши ему, спроси, сколько он заработал»</div>
+      <p>Твинки должны выглядеть как реальные люди: аватарка, био, несколько постов в канале/чатах. Если мамонт напишет твинку — тот должен подтвердить легенду.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M4 6l4-4 4 4M4 10l4 4 4-4"/></svg>
+        Ключевые фразы — проверенные формулировки
+      </div>
+      <p><strong>Предложение совместной торговли (работает почти на всех):</strong></p>
+      <div class="quote">«Кстати, на днях рынок хороший будет. Не желаешь мне составить компанию? Просто так скучненько одной торговать)»</div>
+      <p><strong>После скрина выводов (когда мамонт заинтересовался):</strong></p>
+      <div class="quote">«Могу научить, давай со мной»</div>
+      <p><strong>Если согласился, но не депает (подталкиваем):</strong></p>
+      <div class="quote">«Я планирую круг начать с 20-25к, чтобы словить несколько токенов. Айда пополним балик заранее, чтобы не шариться в кошельке»</div>
+      <p><strong>Если мамонт боится (снимаем страх):</strong></p>
+      <div class="quote">«Слушай, у меня все ученики начинали с малого. Никто не пожалел. Первый вывод сделаем завтра — сам всё увидишь»</div>
+      <p><strong>Фраза от Фомы (работает почти на всех):</strong></p>
+      <div class="quote">«Кстати, на днях рынок хороший будет. Не желаешь мне составить компанию? Просто так скучненько одной торговать)»</div>
+      <div class="tip"><strong>Почему работает:</strong> фраза не звучит как предложение «заработать». Это приглашение «провести время вместе». Мамонт чувствует себя нужным, а не обработанным.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M5 13l3-10 3 10"/><circle cx="8" cy="3" r="1"/></svg>
+        Что делать после успешного закрытия
+      </div>
+      <ul>
+        <li><strong>Смени аккаунт</strong> — если мамонт понял, что его кинули, он может жаловаться в бота или писать другим</li>
+        <li><strong>Проанализируй ошибки</strong> — что сработало, что нет. Каждый мамонт даёт опыт</li>
+        <li><strong>Отдохни</strong> — после крупного профита возьми паузу, чтобы не «перегореть»</li>
+        <li><strong>Обнови материалы</strong> — новые скрины, новые кружки, новые фото</li>
+      </ul>
+      <div class="tip"><strong>Совет:</strong> веди учёт своих мамонтов — сколько общался, сколько депнул, по какой схеме работал. Через месяц ты увидишь, какие схемы приносят больше всего денег.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="theme-line"></div>
+
+<!-- ===== PART 9: ПРАВИЛА ===== -->
+<div class="section" id="part9">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="icon-wrap" style="background:rgba(139,92,246,0.1)">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#C084FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="9,2 11.5,6.5 16.5,7 13,11 14,16 9,13.5 4,16 5,11 1.5,7 6.5,6.5"/>
+      </svg>
+    </div>
+    <h2>Золотые правила</h2>
+    <span class="count">10</span>
+    <div class="progress-dots"><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div></div>
+    <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+  <div class="section-body">
+
+    <div class="card" style="padding:0;border:none;background:none">
+      <div class="rule-list">
+        <div class="rule-item">
+          <div class="rule-title">Отсев</div>
+          <p>Не трать время на мигрантов, школьников, пошляков и «прохаванных». Твой клиент — работяга 25-45 лет с деньгами или доверчивый человек от 40. Качество мамонта важнее количества.</p>
+        </div>
+        <div class="rule-item">
+          <div class="rule-title">Реализм</div>
+          <p>Не рисуй профит за 5 минут. Имитируй ожидание, делай паузы, добавляй просадки. 5-10 сделок в час — не чаще. Система должна выглядеть как настоящая биржа, иначе мамонт раскроет обман.</p>
+        </div>
+        <div class="rule-item">
+          <div class="rule-title">Первое сообщение</div>
+          <p>В ЛДВ никогда не пиши первой — это сразу ставит тебя в слабую позицию. В чатах создавай легенду. В схеме дизайнера жди 10-20 минут перед ответом, чтобы не выглядеть слишком заинтересованной.</p>
+        </div>
+        <div class="rule-item">
+          <div class="rule-title">Прогрев</div>
+          <p>Минимальный качественный прогрев — 5 дней. Это залог крупного профита. За 1-2 дня ты не создашь достаточно доверия. Не спеши — дай мамонту привыкнуть к тебе и начать доверять.</p>
+        </div>
+        <div class="rule-item">
+          <div class="rule-title">Доверие через помощь</div>
+          <p>Схемы «Сплит-система» и «Фейк-прокрут через мамонта» работают лучше прямых предложений. Почему? Потому что мамонт сам участвует и своими глазами видит результат. Он не верит словам — он верит действиям.</p>
+        </div>
+        <div class="rule-item">
+          <div class="rule-title">Скорость при интересе</div>
+          <p>Если мамонт сам начал расспрашивать про трейд — не тяни. Интерес может остыть так же быстро, как загорелся. Аккуратно подводи к бирже, давай реф-ссылку, завод. Золотое окно — 2-3 часа.</p>
+        </div>
+        <div class="rule-item">
+          <div class="rule-title">Материалы</div>
+          <p>Просмотри готовые видео с примерами переписок и реальными кейсами успешных воркеров. Это сильно поднимает уровень социальной инженерии. Учись на чужих ошибках, а не на своих.</p>
+        </div>
+        <div class="rule-item">
+          <div class="rule-title">Безопасность</div>
+          <p>Прокси, VPN, антидетект-браузеры — всегда. Никаких исключений. Не используй готовые пасты из мануалов в анкетах — это почти гарантированный бан. Фантазируй сам, пиши живым языком.</p>
+        </div>
+        <div class="rule-item">
+          <div class="rule-title">Упорство</div>
+          <p>Провалы будут. Это нормально. Каждый неудачный мамонт набивает тебе руку и повышает уровень социальной инженерии. Не ной — работай. Из 10 мамонтов 2-3 принесут профит. Это хорошая статистика.</p>
+        </div>
+        <div class="rule-item">
+          <div class="rule-title">Наставник</div>
+          <p>Если не получается закрыть мамонта — обратись к наставнику. Одна подсказка от опытного человека может стоить сотен тысяч рублей. Не пытайся всё познать сам — используй опыт команды.</p>
+        </div>
+      </div>
+      <div class="tip" style="margin-top:12px"><strong>Запомни:</strong> мамонт платит не за NFT или биткоин. Он платит за твоё внимание и за надежду на то, что завтра ему не нужно будет идти на работу. Продавай мечту, а не кнопку.</div>
+    </div>
+
+  </div>
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand">VOID</div>
+  <p>VOID TRADE MANUAL</p>
+  <p>Мамонт платит не за NFT или биткоин. Он платит за внимание и надежду.</p>
+</footer>
+
+<!-- JAVASCRIPT -->
+<script>
+// ─── SEARCH ─────────────────────────────────
+var searchIndex = [];
+var searchOpen = false;
+var searchResults = [];
+var searchCursor = -1;
+
+function buildSearchIndex(){
+  searchIndex = [];
+  var items = document.querySelectorAll('.card-title, .card p, .card li, .quote, .tip, .rule-title, .rule-item p, .step-title, .step p, .dialog-text');
+  items.forEach(function(el){
+    var text = el.textContent.trim();
+    if(text.length < 5) return;
+    // find parent section
+    var sec = el.closest('.section');
+    if(!sec) return;
+    var secTitle = sec.querySelector('h2');
+    if(!secTitle) return;
+    // find card title
+    var cardTitle = el.closest('.card');
+    var cardTitleText = cardTitle ? cardTitle.querySelector('.card-title') : null;
+    searchIndex.push({
+      text: text,
+      section: sec.id,
+      sectionTitle: secTitle.textContent,
+      cardTitle: cardTitleText ? cardTitleText.textContent : '',
+      el: el
+    });
+  });
+}
+
+function openSearch(){
+  searchOpen = true;
+  searchCursor = -1;
+  document.getElementById('searchOverlay').classList.add('open');
+  var inp = document.getElementById('searchInput');
+  inp.value = '';
+  inp.focus();
+  renderSearch();
+}
+
+function closeSearch(e){
+  if(e && e.target !== e.currentTarget) return;
+  searchOpen = false;
+  document.getElementById('searchOverlay').classList.remove('open');
+  document.getElementById('searchInput').blur();
+}
+
+function renderSearch(){
+  var q = document.getElementById('searchInput').value.toLowerCase().trim();
+  var container = document.getElementById('searchResults');
+  if(!q){
+    container.innerHTML = '<div class="search-empty">Начните вводить запрос</div>';
+    return;
+  }
+  searchResults = [];
+  searchIndex.forEach(function(item){
+    var idx = item.text.toLowerCase().indexOf(q);
+    if(idx === -1) return;
+    searchResults.push(item);
+  });
+  if(!searchResults.length){
+    container.innerHTML = '<div class="search-empty">Ничего не найдено</div>';
+    return;
+  }
+  searchCursor = -1;
+  var html = '';
+  searchResults.slice(0, 20).forEach(function(r, i){
+    var txt = r.text;
+    var idx = txt.toLowerCase().indexOf(q);
+    var ctx = '';
+    if(idx > 30) ctx = '...';
+    ctx += txt.substring(Math.max(0, idx - 20), idx + 80);
+    if(idx + 80 < txt.length) ctx += '...';
+    html += '<div class="search-result-item" data-idx="' + i + '" onclick="navigateToSearch(' + i + ')">' +
+      '<div class="search-result-title">' + r.cardTitle + (r.cardTitle ? ' · ' : '') + r.sectionTitle + '</div>' +
+      '<div class="search-result-context">' + ctx.replace(new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'), '<mark>$&</mark>') + '</div></div>';
+  });
+  container.innerHTML = html;
+}
+
+function navigateToSearch(idx){
+  if(idx < 0 || idx >= searchResults.length) return;
+  var r = searchResults[idx];
+  var sec = document.getElementById(r.section);
+  if(!sec) return;
+  // open the section
+  var header = sec.querySelector('.section-header');
+  var body = sec.querySelector('.section-body');
+  if(header && body){
+    header.classList.add('open');
+    body.classList.add('open');
+  }
+  // scroll to the element
+  var target = r.el;
+  if(target && target.closest('.toggle-body')){
+    var toggleHeader = target.closest('.toggle-wrap');
+    if(toggleHeader){
+      var th = toggleHeader.querySelector('.toggle-header');
+      var tb = toggleHeader.querySelector('.toggle-body');
+      if(th && tb){ th.classList.add('open'); tb.classList.add('open'); }
+    }
+  }
+  closeSearch(null);
+  setTimeout(function(){
+    if(target) target.scrollIntoView({behavior:'smooth', block:'center'});
+    else sec.scrollIntoView({behavior:'smooth'});
+  }, 100);
+}
+
+// keyboard for search
+document.addEventListener('keydown', function(e){
+  // Cmd+K or Ctrl+K to open
+  if((e.metaKey || e.ctrlKey) && e.key === 'k'){
+    e.preventDefault();
+    if(searchOpen) closeSearch(null);
+    else openSearch();
+    return;
+  }
+  if(!searchOpen) return;
+  if(e.key === 'Escape'){
+    closeSearch(null);
+    e.preventDefault();
+    return;
+  }
+  if(e.key === 'ArrowDown'){
+    e.preventDefault();
+    searchCursor = Math.min(searchCursor + 1, Math.min(searchResults.length, 20) - 1);
+    highlightSearchCursor();
+    return;
+  }
+  if(e.key === 'ArrowUp'){
+    e.preventDefault();
+    searchCursor = Math.max(searchCursor - 1, 0);
+    highlightSearchCursor();
+    return;
+  }
+  if(e.key === 'Enter' && searchCursor >= 0){
+    e.preventDefault();
+    navigateToSearch(searchCursor);
+    return;
+  }
+});
+
+function highlightSearchCursor(){
+  document.querySelectorAll('.search-result-item').forEach(function(el, i){
+    el.classList.toggle('active', i === searchCursor);
+  });
+  var active = document.querySelector('.search-result-item.active');
+  if(active) active.scrollIntoView({block:'nearest'});
+}
+
+// input listener
+document.getElementById('searchInput').addEventListener('input', renderSearch);
+
+// ─── PROGRESS TRACKING ──────────────────────
+(function(){
+  var KEY = 'void_progress';
+  var progress = JSON.parse(localStorage.getItem(KEY) || '{}');
+  var sections = document.querySelectorAll('.section');
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(!entry.isIntersecting) return;
+      var sec = entry.target.closest('.section');
+      if(!sec) return;
+      var id = sec.id;
+      if(progress[id]) return;
+      progress[id] = true;
+      localStorage.setItem(KEY, JSON.stringify(progress));
+      updateProgressDots(sec, true);
+    });
+  }, {threshold:0.3});
+
+  sections.forEach(function(sec){
+    var cards = sec.querySelectorAll('.card');
+    cards.forEach(function(card){ observer.observe(card); });
+    var id = sec.id;
+    updateProgressDots(sec, !!progress[id]);
+  });
+
+  function updateProgressDots(sec, done){
+    var dots = sec.querySelectorAll('.progress-dot');
+    var cards = sec.querySelectorAll('.card');
+    dots.forEach(function(dot, i){
+      if(i < cards.length && done) dot.classList.add('done');
+    });
+  }
+})();
+
+// ─── SECTION TOGGLE ─────────────────────────
+function toggleSection(header){
+  header.classList.toggle('open');
+  header.nextElementSibling.classList.toggle('open');
+}
+function toggleBody(header){
+  header.classList.toggle('open');
+  header.nextElementSibling.classList.toggle('open');
+}
+
+// ─── ACTIVE NAV LINK ────────────────────────
+(function(){
+  var sections = document.querySelectorAll('.section');
+  var navLinks = document.querySelectorAll('.header-nav a');
+  var ticking = false;
+  window.addEventListener('scroll', function(){
+    if(!ticking){
+      window.requestAnimationFrame(function(){
+        var current = '';
+        var scrollPos = window.scrollY + 80;
+        sections.forEach(function(sec){
+          if(scrollPos >= sec.offsetTop) current = sec.id;
+        });
+        navLinks.forEach(function(link){
+          link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+        });
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+})();
+
+// ─── TOUCH SWIPE ────────────────────────────
+(function(){
+  var startX = 0, startY = 0;
+  var sections = document.querySelectorAll('.section');
+  var sectionIds = Array.from(sections).map(function(s){ return s.id; });
+  document.addEventListener('touchstart', function(e){
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, {passive:true});
+  document.addEventListener('touchend', function(e){
+    var dx = e.changedTouches[0].clientX - startX;
+    var dy = e.changedTouches[0].clientY - startY;
+    if(Math.abs(dx) > 50 && Math.abs(dy) < 80){
+      var currentId = '';
+      var scrollPos = window.scrollY + 80;
+      sections.forEach(function(sec){
+        if(scrollPos >= sec.offsetTop) currentId = sec.id;
+      });
+      var idx = sectionIds.indexOf(currentId);
+      if(dx < 0 && idx < sectionIds.length - 1){
+        var next = document.getElementById(sectionIds[idx + 1]);
+        if(next) next.scrollIntoView({behavior:'smooth'});
+      } else if(dx > 0 && idx > 0){
+        var prev = document.getElementById(sectionIds[idx - 1]);
+        if(prev) prev.scrollIntoView({behavior:'smooth'});
+      }
+    }
+  }, {passive:true});
+})();
+
+// ─── BUILD SEARCH INDEX ON LOAD ─────────────
+document.addEventListener('DOMContentLoaded', buildSearchIndex);
+</script>
+</body>
+</html>
